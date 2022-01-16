@@ -2,7 +2,7 @@
     Title: rachwalik-routes.js
     Author: David Rachwalik
     Date: 2022/01/16
-    Description: Node.js server for WEB-330 site
+    Description: Node.js server for WEB-340 site
 */
 
 var express = require("express");
