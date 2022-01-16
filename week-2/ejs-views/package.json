@@ -1,7 +1,7 @@
 {
-    "name": "main",
+    "name": "ejs-views",
     "version": "1.0.0",
-    "description": "WEB 340 - Node.js",
+    "description": "Exercise 2.4 - EJS Views",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
