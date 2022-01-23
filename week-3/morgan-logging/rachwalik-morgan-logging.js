@@ -1,5 +1,5 @@
 /*
-    Title: rachwalik-ejs-views.js
+    Title: rachwalik-morgan-logging.js
     Author: David Rachwalik
     Date: 2022/01/23
     Description: Node.js server for WEB-340 site
