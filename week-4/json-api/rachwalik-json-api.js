@@ -1,8 +1,8 @@
 /*
-    Title: product.js
+    Title: rachwalik-json-api.js
     Author: David Rachwalik
-    Date: 2022/01/23
-    Description: Product class for WEB-340 site
+    Date: 2022/01/30
+    Description: Exercise 4.2 for WEB-340 site
 */
 
 const express = require('express');
