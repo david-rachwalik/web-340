@@ -1,0 +1,10 @@
+{
+  "name": "if-else-render",
+  "author": "David Rachwalik",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.2"
+  }
+}
