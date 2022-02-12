@@ -1,0 +1,11 @@
+{
+  "name": "mongoose-connection",
+  "author": "David Rachwalik",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongoose": "^6.2.1",
+    "morgan": "^1.10.0"
+  }
+}
