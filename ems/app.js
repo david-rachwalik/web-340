@@ -1,7 +1,7 @@
 /*
     Title: app.js
     Author: David Rachwalik
-    Date: 2022/02/06
+    Date: 2022/02/13
     Description: Node.js server for WEB-340 site
 */
 
@@ -15,11 +15,27 @@ const app = express();
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(logger('short'));
+app.use(express.static(`${__dirname}/public`)); // declare static directory
 
 // Setup server routes
 app.get('/', (request, response) => {
   response.render('index', {
     title: 'Home page',
+  });
+});
+app.get('/list', (request, response) => {
+  response.render('list', {
+    title: 'Tabular View',
+  });
+});
+app.get('/new', (request, response) => {
+  response.render('new', {
+    title: 'Data Entry',
+  });
+});
+app.get('/view', (request, response) => {
+  response.render('view', {
+    title: 'Employee Details',
   });
 });
 
