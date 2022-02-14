@@ -1,1 +1,1 @@
-console.log('yo');
+console.log('custom script was successfully loaded');
