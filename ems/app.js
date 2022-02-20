@@ -16,15 +16,11 @@ const Employee = require('./models/employee.js');
 // --- Database Setup Steps ---
 
 // Build database connection string
-// const username = 'admin';
 const database = 'ems';
-// const mongoDB = `mongodb+srv://${username}:${password}@buwebdev-cluster-1.gfevl.mongodb.net/${database}?retryWrites=true&w=majority`;
 const mongoDB = `mongodb+srv://buwebdev-cluster-1.gfevl.mongodb.net/${database}`;
 
 // Setup connection to MongoDB
-mongoose.connect(mongoDB, {
-  useMongoClient: true,
-});
+mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 
