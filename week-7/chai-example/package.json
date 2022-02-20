@@ -1,0 +1,13 @@
+{
+  "name": "chai-example",
+  "author": "David Rachwalik",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "mocha rachwalik-chai-example.js"
+  },
+  "dependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^9.2.1"
+  }
+}
