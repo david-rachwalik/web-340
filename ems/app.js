@@ -1,8 +1,8 @@
 /*
     Title: app.js
     Author: David Rachwalik
-    Date: 2022/02/13
-    Description: Node.js server for WEB-340 site
+    Date: 2022/02/20
+    Description: Node.js server for EMS site
 */
 
 const express = require('express');
