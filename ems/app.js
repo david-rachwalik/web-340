@@ -7,11 +7,21 @@
 
 const express = require('express');
 const http = require('http');
-const path = require('path');
 const mongoose = require('mongoose');
 const logger = require('morgan');
+const helmet = require('helmet');
+const path = require('path');
 const Fruit = require('./models/fruit.js');
 const Employee = require('./models/employee.js');
+
+// Instantiate models
+const fruit = new Fruit({
+  name: 'Apple',
+});
+const employee = new Employee({
+  firstName: 'David',
+  lastName: 'Rachwalik',
+});
 
 // --- Database Setup Steps ---
 
@@ -34,21 +44,14 @@ db.once('open', () => {
 
 // --- Application Setup Steps ---
 
-// Setup app server, view engine, logger, static files
+// Initialize Express app server
 const app = express();
+// Setup logger, security, static files, view engine
+app.use(logger('short'));
+app.use(helmet.xssFilter()); // XSS prevention
+app.use(express.static(`${__dirname}/public`)); // declare static directory
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(logger('short'));
-app.use(express.static(`${__dirname}/public`)); // declare static directory
-
-// Instantiate models
-const fruit = new Fruit({
-  name: 'Apple',
-});
-const employee = new Employee({
-  firstName: 'David',
-  lastName: 'Rachwalik',
-});
 
 // Setup server routes (views)
 app.get('/', (request, response) => {
