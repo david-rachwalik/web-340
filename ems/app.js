@@ -1,7 +1,7 @@
 /*
     Title: app.js
     Author: David Rachwalik
-    Date: 2022/02/20
+    Date: 2022/02/26
     Description: Node.js server for EMS site
 */
 
@@ -9,8 +9,13 @@ const express = require('express');
 const http = require('http');
 const mongoose = require('mongoose');
 const logger = require('morgan');
-const helmet = require('helmet');
 const path = require('path');
+// security
+const helmet = require('helmet');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const csrf = require('csurf');
+// models
 const Fruit = require('./models/fruit.js');
 const Employee = require('./models/employee.js');
 
@@ -46,10 +51,21 @@ db.once('open', () => {
 
 // Initialize Express app server
 const app = express();
-// Setup logger, security, static files, view engine
+// Setup logger and static files
 app.use(logger('short'));
-app.use(helmet.xssFilter()); // XSS prevention
 app.use(express.static(`${__dirname}/public`)); // declare static directory
+// Setup security
+app.use(helmet.xssFilter()); // XSS prevention
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(csrf({ cookie: true })); // setup csrf protection
+app.use((request, response, next) => {
+  const token = request.csrfToken();
+  response.cookie('XSRF-TOKEN', token);
+  response.locals.csrfToken = token;
+  next();
+});
+// Set the view engine
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -64,15 +80,20 @@ app.get('/list', (request, response) => {
     title: 'Tabular View',
   });
 });
-app.get('/new', (request, response) => {
-  response.render('new', {
-    title: 'Data Entry',
-  });
-});
 app.get('/view', (request, response) => {
   response.render('view', {
     title: 'Employee Details',
   });
+});
+app.get('/new', (request, response) => {
+  response.render('new', {
+    title: 'Data Entry',
+    message: 'New Fruit Entry Page',
+  });
+});
+app.post('/process', (request, response) => {
+  console.log(request.body.txtName);
+  // response.redirect('/');
 });
 
 // Start the server

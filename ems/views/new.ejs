@@ -11,9 +11,16 @@
 
 <div role="main" class="container">
     <br /><br />
+    <h2><%= message %></h2>
 
     <h2>Welcome to the data entry page!</h2>
     <p>This site contains actions to create data entries.</p>
+
+    <form method="post" action="/process" data-csrf="<%= csrfToken %>">
+        <!-- CSRF token -->
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <button type="submit" class="btn btn-primary float-right">Submit</button>
+    </form>
 </div>
 
 <%- include('shared/footer') %>
