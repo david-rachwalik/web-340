@@ -1,7 +1,7 @@
 <!--
     Title: new.ejs
     Author: David Rachwalik
-    Date: 2022/02/13
+    Date: 2022/02/27
     Description: WEB-340 ems site data entry page
 -->
 
@@ -17,9 +17,18 @@
     <p>This site contains actions to create data entries.</p>
 
     <form method="post" action="/process" data-csrf="<%= csrfToken %>">
-        <!-- CSRF token -->
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-        <button type="submit" class="btn btn-primary float-right">Submit</button>
+        <div class="form-group">
+            <label for="txtFirstName">First Name:</label>
+            <input type="text" class="form-control" id="txtFirstName" name="txtFirstName" />
+            <label for="txtLastName">Last Name:</label>
+            <input type="text" class="form-control" id="txtLastName" name="txtLastName" />
+        </div>
+        <br />
+        <div class="form-group">
+            <!-- CSRF token -->
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            <button type="submit" class="btn btn-primary float-right">Submit</button>
+        </div>
     </form>
 </div>
 
