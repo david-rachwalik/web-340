@@ -1,7 +1,7 @@
 /*
     Title: app.js
     Author: David Rachwalik
-    Date: 2022/02/26
+    Date: 2022/02/27
     Description: Node.js server for EMS site
 */
 
@@ -16,26 +16,20 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
 // models
-const Fruit = require('./models/fruit.js');
 const Employee = require('./models/employee.js');
-
-// Instantiate models
-const fruit = new Fruit({
-  name: 'Apple',
-});
-const employee = new Employee({
-  firstName: 'David',
-  lastName: 'Rachwalik',
-});
 
 // --- Database Setup Steps ---
 
-// Build database connection string
+// Build database connection string (https://www.urlencoder.org)
 const database = 'ems';
-const mongoDB = `mongodb+srv://buwebdev-cluster-1.gfevl.mongodb.net/${database}`;
+// const mongoDB = `mongodb+srv://buwebdev-cluster-1.gfevl.mongodb.net/${database}`;
+const mongoDB = `mongodb+srv://admin:admin@buwebdev-cluster-1.gfevl.mongodb.net/${database}`;
 
 // Setup connection to MongoDB
-mongoose.connect(mongoDB);
+mongoose.connect(mongoDB, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 
@@ -76,8 +70,12 @@ app.get('/', (request, response) => {
   });
 });
 app.get('/list', (request, response) => {
-  response.render('list', {
-    title: 'Tabular View',
+  Employee.find({}, (error, employees) => {
+    if (error) throw error;
+    response.render('list', {
+      title: 'Employee List',
+      employees,
+    });
   });
 });
 app.get('/view', (request, response) => {
@@ -88,12 +86,39 @@ app.get('/view', (request, response) => {
 app.get('/new', (request, response) => {
   response.render('new', {
     title: 'Data Entry',
-    message: 'New Fruit Entry Page',
+    message: 'New Employee Entry Page',
   });
 });
 app.post('/process', (request, response) => {
-  console.log(request.body.txtName);
-  // response.redirect('/');
+  // console.log(request.body.txtName);
+  if (!request.body.txtFirstName) {
+    response.status(400).send('Entries must have a first name');
+    return;
+  }
+  if (!request.body.txtLastName) {
+    response.status(400).send('Entries must have a last name');
+    return;
+  }
+  // get the request's form data
+  const employeeFirstName = request.body.txtFirstName;
+  const employeeLastName = request.body.txtLastName;
+  // Create an employee
+  const employee = new Employee({
+    firstName: employeeFirstName,
+    lastName: employeeLastName,
+  });
+  console.log(`preparing to save employee: ${employee}`);
+  // save
+  employee.save((error, result) => {
+    if (error) {
+      console.log(error);
+      throw error;
+    } else {
+      // console.log(result);
+      console.log(`${employee.firstName} ${employee.lastName} saved successfully!`);
+      response.redirect('/');
+    }
+  });
 });
 
 // Start the server
