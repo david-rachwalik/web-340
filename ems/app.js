@@ -1,7 +1,7 @@
 /*
     Title: app.js
     Author: David Rachwalik
-    Date: 2022/02/27
+    Date: 2022/03/05
     Description: Node.js server for EMS site
 */
 
@@ -117,6 +117,23 @@ app.post('/process', (request, response) => {
       // console.log(result);
       console.log(`${employee.firstName} ${employee.lastName} saved successfully!`);
       response.redirect('/');
+    }
+  });
+});
+// View catch all
+app.get('/view/:lastName/:firstName', (request, response) => {
+  const { lastName } = request.params;
+  const { firstName } = request.params;
+  Employee.find({ lastName, firstName }, (error, employees) => {
+    if (error) throw error;
+    console.log(employees);
+    if (employees.length > 0) {
+      response.render('view', {
+        title: 'Employee Record',
+        employee: employees,
+      });
+    } else {
+      response.redirect('/list');
     }
   });
 });
