@@ -79,8 +79,25 @@ app.get('/list', (request, response) => {
   });
 });
 app.get('/view', (request, response) => {
-  response.render('view', {
-    title: 'Employee Details',
+  // response.render('view', {
+  //   title: 'Employee Details',
+  // });
+  response.redirect('/list');
+});
+app.get('/view/:lastName/:firstName', (request, response) => {
+  const { lastName } = request.params;
+  const { firstName } = request.params;
+  Employee.find({ lastName, firstName }, (error, employees) => {
+    if (error) throw error;
+    console.log(employees);
+    if (employees.length > 0) {
+      response.render('view', {
+        title: 'Employee Record',
+        employee: employees,
+      });
+    } else {
+      response.redirect('/list');
+    }
   });
 });
 app.get('/new', (request, response) => {
@@ -120,30 +137,30 @@ app.post('/process', (request, response) => {
     }
   });
 });
-// View catch all
-app.get('/view/:lastName/:firstName', (request, response) => {
-  const { lastName } = request.params;
-  const { firstName } = request.params;
-  Employee.find({ lastName, firstName }, (error, employees) => {
-    if (error) throw error;
-    console.log(employees);
-    if (employees.length > 0) {
-      response.render('view', {
-        title: 'Employee Record',
-        employee: employees,
-      });
-    } else {
-      response.redirect('/list');
-    }
-  });
-});
 
 // Start the server
-http.createServer(app).listen(8080, () => {
-  console.log('Application started on port 8080!');
+http.createServer(app).listen(process.env.PORT || 8080, () => {
+  console.log('Application started!');
 });
 
-// --- Commands ---
+// --- Run Commands ---
 // cd E:\Repos\web-340\ems
-// * run server with command: node app.js
+// node app.js
 // * navigate to localhost:8080 or enter the command: curl -i localhost:8080
+
+// --- Create Heroku App Commands ---
+// cd E:\Repos\web-340\ems
+// heroku login
+// heroku create
+// heroku apps:rename <yourLastName>‐ems -–app <random‐app‐name-from-create>
+// git init
+// heroku git:remote -a <yourLastName>-ems
+// git add .
+// git commit -‐am "Initial Deployment"
+// git push heroku master
+// heroku ps:scale web=1
+// heroku open
+
+// --- Deploy Commands ---
+// cd E:\Repos\web-340\ems
+// npm run deploy

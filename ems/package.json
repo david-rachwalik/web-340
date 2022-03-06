@@ -3,6 +3,10 @@
   "author": "David Rachwalik",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "deploy": "git push heroku master"
+  },
   "dependencies": {
     "body-parser": "^1.19.2",
     "cookie-parser": "^1.4.6",
