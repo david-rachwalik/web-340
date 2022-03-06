@@ -139,8 +139,9 @@ app.post('/process', (request, response) => {
 });
 
 // Start the server
-http.createServer(app).listen(process.env.PORT || 8080, () => {
-  console.log('Application started!');
+app.set('port', process.env.PORT || 8080);
+http.createServer(app).listen(app.get('port'), () => {
+  console.log(`Application started on port ${app.get('port')}!`);
 });
 
 // --- Run Commands ---
